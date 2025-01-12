@@ -10,7 +10,6 @@ const router = Router();
 router.post("/generateData", async (req, res) => {
   const { users, pets } = req.body;
 
-  // Validación de parámetros
   if (!Number.isInteger(users) || users <= 0 || !Number.isInteger(pets) || pets <= 0) {
     return res.status(400).send({ status: "error", message: "Los parámetros 'users' y 'pets' deben ser números enteros positivos." });
   }

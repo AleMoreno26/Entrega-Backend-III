@@ -1,5 +1,6 @@
 import { adoptionsService, petsService, usersService } from "../services/index.js"
 
+
 const getAllAdoptions = async(req,res)=>{
     const result = await adoptionsService.getAll();
     res.send({status:"success",payload:result})
