@@ -1,6 +1,8 @@
 import express from 'express';
 import mongoose from 'mongoose';
 import cookieParser from 'cookie-parser';
+import dotenv from "dotenv";
+import cors from "cors";
 
 import usersRouter from './routes/users.router.js';
 import petsRouter from './routes/pets.router.js';
@@ -10,9 +12,15 @@ import mocksRouter from './routes/mocks.router.js'
 import loggerRouter from "./routes/logger.router.js";
 import addLogger from './utils/logger.js';
 
+dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8080;
-const connection = mongoose.connect(`mongodb+srv://am2408693:coderhouse@cluster0.rsppv.mongodb.net/Adoptame?retryWrites=true&w=majority&appName=Cluster0`)
+const connection = mongoose.connect(process.env.MONGO_URL)
+app.use(cors({
+  // origin: 'http://localhost:5173',
+  origin: '*', // Permite cualquier origen
+  credentials: true 
+}))
 
 // Middleware
 app.use(express.json());
@@ -27,9 +35,5 @@ app.use('/api/sessions', sessionsRouter);
 app.use('/api/mocks', mocksRouter);
 app.use("/api/loggerTest", loggerRouter);
 
-// Ruta raíz
-  // app.get('/', (req, res) => {
-  //   res.send('Bienvenido a AdoptMe API. Usa /api/users, /api/pets, etc. para interactuar con la API.');
-  // });
 
 app.listen(PORT, () => console.log(`Listening on ${PORT}`))
